@@ -1,13 +1,7 @@
 """Data quality checks for the FOI dengue and PSA census inputs."""
 
 import pandas as pd
-
-NCR_LGUS = [
-    "Caloocan", "Las Piñas", "Makati", "Malabon", "Mandaluyong",
-    "Manila", "Marikina", "Muntinlupa", "Navotas", "Parañaque",
-    "Pasay City", "Pasig", "Pateros", "Quezon City", "San Juan",
-    "Taguig", "Valenzuela",
-]
+from src.lgu_names import CANONICAL_LGUS, normalize_lgu_name
 
 YEARS = [2021, 2022, 2023, 2024, 2025]
 
@@ -34,17 +28,30 @@ def check_grand_totals(cases_wide: pd.DataFrame) -> dict:
     return results
 
 
-def check_panel_shape(cases_wide: pd.DataFrame) -> dict:
-    """Exactly 17 NCR LGUs, no extras, no omissions."""
-    found = set(cases_wide["LGU"].str.strip())
-    return {
-        "row_count": len(cases_wide),
-        "expected_rows": 17,
-        "unexpected_lgus": sorted(found - set(NCR_LGUS)),
-        "missing_lgus": sorted(set(NCR_LGUS) - found),
-        "long_format_rows": len(cases_wide) * len(YEARS),
-    }
+def check_panel_shape(cases: pd.DataFrame, lgu_column: str = "LGU") -> dict:
+    """Exactly 17 NCR LGUs, no extras, no omissions.
 
+    Names are normalised before comparison, so this works on raw source files
+    and on the cleaned panel alike.
+    """
+    raw_names = cases[lgu_column].astype(str).str.strip()
+
+    normalized, unrecognized = [], []
+    for name in raw_names:
+        try:
+            normalized.append(normalize_lgu_name(name))
+        except ValueError:
+            unrecognized.append(name)
+
+    found = set(normalized)
+    return {
+        "row_count": len(cases),
+        "expected_rows": 17,
+        "unrecognized_names": sorted(unrecognized),
+        "missing_lgus": sorted(set(CANONICAL_LGUS) - found),
+        "duplicate_lgus": sorted({n for n in normalized if normalized.count(n) > 1}),
+        "long_format_rows": len(cases) * len(YEARS),
+    }
 
 def check_sanity(cases_wide: pd.DataFrame) -> dict:
     """Case counts must be non-negative, non-null integers."""

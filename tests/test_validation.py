@@ -25,8 +25,9 @@ def test_grand_totals_match_foi(cases):
 def test_seventeen_lgus_no_surprises(cases):
     r = check_panel_shape(cases)
     assert r["row_count"] == 17
-    assert r["unexpected_lgus"] == []
+    assert r["unrecognized_names"] == []
     assert r["missing_lgus"] == []
+    assert r["duplicate_lgus"] == []
     assert r["long_format_rows"] == 85
 
 
