@@ -3,16 +3,15 @@
 MO-IT200D2 Capstone 2 | Section A4103 | Group 1
 Mapúa Malayan Digital College
 
-**Members:** 
-Rania Nabil M. Abdelfattah, 
-Martin Sheen C. Cajucom,
-Chadley Marie V. De Lara, 
-Karissa Mae T. Manicad
+**Members:** Rania Nabil M. Abdelfattah, Martin Sheen C. Cajucom, Chadley Marie V. De Lara, Karissa Mae T. Manicad
+
 **Mentor:** John Edmon Alcomendas
 
-Annual dengue analytics and LGU prioritization for the 17 LGUs of
-Metro Manila (2021–2025), using Negative Binomial panel regression
-and a Tableau dashboard.
+Annual dengue analytics and LGU prioritization for the 17 LGUs of Metro Manila (2021–2025), using Negative Binomial panel regression and a Tableau dashboard.
+
+## Data
+
+All data used in this project is aggregated, de-identified secondary data obtained from official government sources: the DOH Metro Manila Center for Health Development (via Freedom of Information request) and the Philippine Statistics Authority. No individually identifiable patient data is collected or processed.
 
 ## Structure
 | Path | Contents |
