@@ -13,6 +13,7 @@ figures for every year and are not separately flagged.
 
 import pandas as pd
 
+from src.indicators import compute_incidence_rate
 from src.lgu_names import normalize_lgu_name
 from src.population import ALL_YEARS
 
@@ -58,7 +59,11 @@ def build_lgu_year_panel(cases_wide: pd.DataFrame, population_panel: pd.DataFram
             f"Merge dropped {len(cases_long) - len(merged)} LGU-year rows: {sorted(missing)}"
         )
 
-    merged["Incidence Rate"] = merged["Dengue Cases"] / merged["Population"] * 100_000
+    # Delegated to src.indicators so the formula has one definition and one
+    # set of unit tests, rather than being written out again here.
+    merged["Incidence Rate"] = compute_incidence_rate(
+        merged["Dengue Cases"], merged["Population"]
+    )
 
     ordered = merged[
         [

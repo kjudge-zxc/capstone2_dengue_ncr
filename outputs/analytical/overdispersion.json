@@ -1,0 +1,12 @@
+{
+  "observations": 85,
+  "parameters": 6,
+  "df_resid": 79,
+  "pearson_chi2": 15716.908843023906,
+  "overdispersion_index": 198.94821320283427,
+  "deviance": 14683.081027228049,
+  "deviance_ratio": 185.86178515478542,
+  "log_likelihood": -7718.590691676983,
+  "aic": 15449.181383353965,
+  "verdict": "Substantial overdispersion; Negative Binomial is warranted"
+}

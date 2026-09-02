@@ -1,7 +1,8 @@
 # Data Dictionary
 
 Covers `data/04_validated/lgu_year_panel.csv` (the 85-row LGU-year analytical
-panel) and its upstream component, `data/03_processed/population_panel.csv`.
+panel), its upstream component `data/03_processed/population_panel.csv`, and the
+derived indicator columns exported to `outputs/dashboard_exports/`.
 
 ---
 
@@ -62,6 +63,38 @@ panel) and its upstream component, `data/03_processed/population_panel.csv`.
 - **Transformation:** `Dengue Cases ÷ Population × 100,000`
 - **Analytical role:** Descriptive indicator for cross-LGU comparison; basis for the five-year-average trend indicator
 - **Status tag:** computed (inherits the status of the Population value used)
+
+### Previous Year Incidence
+- **Meaning:** The same LGU's incidence rate in the preceding year
+- **Source:** Computed
+- **Unit:** cases per 100,000
+- **Transformation:** Incidence Rate shifted by one year within the LGU, after sorting by LGU then Year. Empty for 2021, which has no prior year in the panel
+- **Analytical role:** Denominator of the year-over-year change; carried in the export so the change can be audited without a second lookup
+- **Status tag:** computed
+
+### YoY % Change
+- **Meaning:** Percent change in incidence against the same LGU's previous year
+- **Source:** Computed
+- **Unit:** percent
+- **Transformation:** `(Incidence Rate - Previous Year Incidence) / Previous Year Incidence x 100`. Always within one LGU, never across LGUs. Empty for 2021
+- **Analytical role:** Descriptive year-on-year movement for the trend view of the dashboard
+- **Status tag:** computed (inherits the status of the two Population values used)
+
+### Five-Year Average Incidence
+- **Meaning:** The LGU's own mean incidence across 2021-2025
+- **Source:** Computed
+- **Unit:** cases per 100,000
+- **Transformation:** Plain mean of that LGU's five annual incidence values, broadcast to all five of its rows
+- **Analytical role:** Within-LGU benchmark; the 2025 comparison against it is the second condition of the three-tier priority rule
+- **Status tag:** computed
+
+### At or Above Average
+- **Meaning:** Whether the LGU's 2025 incidence is at or above its own five-year average
+- **Source:** Computed
+- **Unit:** boolean
+- **Transformation:** `2025 Incidence >= Five-Year Average Incidence`, evaluated on unrounded values
+- **Analytical role:** Second of the two conditions in the three-tier priority rule. Present in `outputs/dashboard_exports/lgu_summary_2025.csv` at LGU grain, not in the LGU-year panel
+- **Status tag:** computed
 
 ### Status
 - **Meaning:** Confidence/provenance tag for the Population value used in that row
