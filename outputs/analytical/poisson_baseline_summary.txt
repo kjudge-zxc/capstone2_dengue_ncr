@@ -6,7 +6,7 @@ Model Family:                 Poisson   Df Model:                            5
 Link Function:                    Log   Scale:                          1.0000
 Method:                          IRLS   Log-Likelihood:                -7718.6
 Date:                Wed, 02 Sep 2026   Deviance:                       14683.
-Time:                        21:48:57   Pearson chi2:                 1.57e+04
+Time:                        22:03:51   Pearson chi2:                 1.57e+04
 No. Iterations:                     6   Pseudo R-squ. (CS):              1.000
 Covariance Type:            nonrobust                                         
 ====================================================================================
